@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="sonosApp">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simple Sonos Controller</title>
+    <!-- Sets initial viewport load and disables
+    zooming -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="css/ratchet.css" rel="stylesheet">
+    <script src="js/ratchet.js"></script>
+    <script src="js/bower_components/angular/angular.js"></script>
+    <script src="js/controllers.js"></script>
+</head>
+
+<body ng-controller="ItemCtrl as ctrl" draggable="true">
+<!-- Make sure all your bars are the first things in your <body> -->
+<header class="bar bar-nav">
+    <h1 class="title">Sonos Controller</h1>
+
+    <button ng-hide="ctrl.hideBack()" class="btn btn-link btn-nav pull-left" ng-click="ctrl.goBack()">
+        <span class="icon icon-left-nav"></span>
+        Back
+    </button>
+
+    <!--Pause / play button-->
+    <button ng-hide="false" class="btn btn-link btn-nav pull-right" ng-click="ctrl.playPause()">
+        <!--<span class="icon">www</span>-->
+        Play/Pause
+    </button>
+
+    <nav class="bar bar-tab">
+        <a ng-repeat="i in ctrl.TABNAMES" ng-class="ctrl.getTabClass(i)" href="#" ng-click="ctrl.setType(i)">
+            {{i}}
+        </a>
+    </nav>
+</header>
+<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+<div class="content">
+    <div class="card">
+        <ul class="table-view">
+            <li ng-repeat="i in ctrl.items" class="table-view-cell" ng-click="i.istrack==false ? ctrl.updateCurrentId(i.id) : ctrl.playTrack(i.uri)">
+                <a ng-class="i.istrack==false ? 'push-right' : ''" href="#">
+                    <p>{{i.title}}</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+</html>
