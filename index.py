@@ -1,28 +1,29 @@
-import time
-import hashlib
+"""Main python file"""
+# import time
+# import hashlib
 import json
 
-import requests
-from flask import Flask, render_template, url_for, request
+# import requests
+from flask import Flask, request
 
 import soco
 
-app = Flask(__name__)
+APP = Flask(__name__)
 
-app.config.from_pyfile('settings.py')
+APP.config.from_pyfile('settings.py')
 
 components = list(soco.discover())
 sonos = components[1]
 print sonos.player_name
 assert isinstance(sonos, soco.SoCo)
-# sonos = SoCo(app.config['SPEAKER_IP'])
+# sonos = SoCo(APP.config['SPEAKER_IP'])
 MAX_ITEMS = 1000
 
 
-@app.route("/detail")
+@APP.route("/detail")
 def getDetail():
-    id = request.args.get('id','A:GENRE/Classical')
-    type = request.args.get('type','genres')
+    id = request.args.get('id', 'A:GENRE/Classical')
+    type = request.args.get('type', 'genres')
 
     print id
     # print type
@@ -43,17 +44,17 @@ def getDetail():
     # print ret
     return ret
 
-@app.route('/')
+@APP.route('/')
 def root():
-  return app.send_static_file('index.html')
+  return APP.send_static_file('index.html')
 
-@app.route('/<path:path>')
+@APP.route('/<path:path>')
 def static_proxy(path):
   # send_static_file will guess the correct MIME type
-  return app.send_static_file(path)
+  return APP.send_static_file(path)
 
 
-@app.route('/playTrack')
+@APP.route('/playTrack')
 def play():
     uri = request.args.get('uri','')
     ret = ''
@@ -65,14 +66,14 @@ def play():
         ret = uri
     return ret
 
-@app.route('/getStatus')
+@APP.route('/getStatus')
 def getStatus():
     state = sonos.get_current_transport_info();
     ret = {'name':sonos.player_name, 'state':state}
     return json.dumps(ret)
 
 # pause if playing, play if paused.
-@app.route('/playPause')
+@APP.route('/playPause')
 def pause():
     state = sonos.get_current_transport_info();
     print state
@@ -88,5 +89,5 @@ def pause():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    APP.run(debug=True, host='0.0.0.0')
 __author__ = 'Andrew'

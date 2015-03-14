@@ -1,5 +1,7 @@
 var sonosApp = angular.module('sonosApp',[]);
-var SERVER = "http://192.168.2.17:5000/";
+//var SERVER = "http://192.168.2.32:5000/";
+var SERVER = "http://" + location.host + "/";
+//console.log(location.host);
 
 
 sonosApp.controller('ItemCtrl',['$scope','$http',function ($scope, $http){
@@ -78,20 +80,8 @@ sonosApp.controller('ItemCtrl',['$scope','$http',function ($scope, $http){
         };
     };
 
-    //self.getPlayStatus = function(){
-    //    var dat = {};
-    //    $http.get(SERVER + 'getStatus').
-    //        success(function(data, status, headers, config) {
-    //            dat = data;
-    //        }).
-    //        error(function(data, status, headers, config) {});
-    //
-    //    ret = {'hide': false, 'text': dat.state.current_transport_state};
-    //    console.log(ret);
-    //};
-
     self.playPause = function(){
-        $http.get(SERVER + 'playPause')
+        $http.get(SERVER + 'playPause');
     };
     
     // finally load the data into the initial array
