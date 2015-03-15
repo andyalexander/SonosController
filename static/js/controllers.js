@@ -1,7 +1,5 @@
 var sonosApp = angular.module('sonosApp',[]);
-//var SERVER = "http://192.168.2.32:5000/";
 var SERVER = "http://" + location.host + "/";
-//console.log(location.host);
 
 
 sonosApp.controller('ItemCtrl',['$scope','$http',function ($scope, $http){
@@ -24,7 +22,7 @@ sonosApp.controller('ItemCtrl',['$scope','$http',function ($scope, $http){
         if (self.parentId.length == 1){
             hide = true;
         }
-        //console.log(self.parentId.length);
+
         return hide;
     };
 
@@ -33,6 +31,7 @@ sonosApp.controller('ItemCtrl',['$scope','$http',function ($scope, $http){
         self.parentId.pop();
         self.updateCurrentId(temp);
     };
+
 
     self.updateCurrentId = function(newVal) {
         var oldVal = self.currentId;
@@ -47,6 +46,7 @@ sonosApp.controller('ItemCtrl',['$scope','$http',function ($scope, $http){
 
     self.getData = function(){
         var id = self.currentId;
+        id = encodeURI(id);
         $http.get(SERVER + 'detail' + '?id=' + id + "&type=" + self.type).
         success(function(data, status, headers, config) {
             self.items = data.items;
